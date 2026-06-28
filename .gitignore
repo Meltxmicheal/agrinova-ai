@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+.env
+
+# VS Code
+.vscode/
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# Uploads
+uploads/
+
+# Reports
+reports/
+
+# ML Models
+backend/ml/models/*.pkl
+backend/ml/models/*.joblib
+
+# OS Files
+.DS_Store
+Thumbs.db
