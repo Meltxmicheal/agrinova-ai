@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Reports & Analytics — AgriNova AI{% endblock %}
+
+{% block content %}
+
+{% include "_sidebar.html" %}
+
+<div class="main-content">
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar"><i class="bi bi-list fs-5"></i></button>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-file-earmark-bar-graph me-2 text-success"></i>Reports & Analytics</h5>
+    </nav>
+
+    <!-- Export Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Predictions Reports -->
+        <div class="col-md-4">
+            <div class="glass-card">
+                <div class="feature-icon-wrapper" style="background:#F5F3FF;color:#7C3AED;"><i class="bi bi-cpu"></i></div>
+                <h5 class="fw-bold mb-2">Prediction History</h5>
+                <p class="text-muted small mb-4">Download the complete log of all AI predictions including inputs, outputs, and confidence scores.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-sm btn-outline-secondary export-btn" data-format="csv" data-type="predictions">
+                        <i class="bi bi-filetype-csv me-1"></i> CSV
+                    </button>
+                    <button class="btn btn-sm btn-outline-success export-btn" data-format="excel" data-type="predictions">
+                        <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger export-btn" data-format="pdf" data-type="predictions">
+                        <i class="bi bi-filetype-pdf me-1"></i> PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Reports -->
+        <div class="col-md-4">
+            <div class="glass-card">
+                <div class="feature-icon-wrapper" style="background:#DBEAFE;color:#3B82F6;"><i class="bi bi-cloud-sun"></i></div>
+                <h5 class="fw-bold mb-2">Weather History</h5>
+                <p class="text-muted small mb-4">Export historical weather data for all your registered farm locations with temperature, humidity, and alerts.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-sm btn-outline-secondary export-btn" data-format="csv" data-type="weather">
+                        <i class="bi bi-filetype-csv me-1"></i> CSV
+                    </button>
+                    <button class="btn btn-sm btn-outline-success export-btn" data-format="excel" data-type="weather">
+                        <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger export-btn" data-format="pdf" data-type="weather">
+                        <i class="bi bi-filetype-pdf me-1"></i> PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Farm Analytics -->
+        <div class="col-md-4">
+            <div class="glass-card">
+                <div class="feature-icon-wrapper"><i class="bi bi-geo-alt-fill"></i></div>
+                <h5 class="fw-bold mb-2">Farm Analytics</h5>
+                <p class="text-muted small mb-4">Get a structured report of all registered farms with their geographic and agronomic data for portfolio records.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-sm btn-outline-secondary export-btn" data-format="csv" data-type="farms">
+                        <i class="bi bi-filetype-csv me-1"></i> CSV
+                    </button>
+                    <button class="btn btn-sm btn-outline-success export-btn" data-format="excel" data-type="farms">
+                        <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger export-btn" data-format="pdf" data-type="farms">
+                        <i class="bi bi-filetype-pdf me-1"></i> PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Log -->
+    <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h6 class="fw-bold mb-0">Recent Prediction Logs</h6>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Module</th>
+                        <th>Output</th>
+                        <th>Confidence</th>
+                        <th>Input Summary</th>
+                    </tr>
+                </thead>
+                <tbody id="reportLogBody">
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            <div class="spinner-border spinner-border-sm text-success me-2"></div> Loading logs...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

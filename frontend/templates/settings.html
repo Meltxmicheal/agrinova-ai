@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Settings — AgriNova AI{% endblock %}
+
+{% block content %}
+{% include "_sidebar.html" %}
+<div class="main-content">
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar"><i class="bi bi-list fs-5"></i></button>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-gear me-2 text-success"></i>Settings</h5>
+    </nav>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="glass-card">
+                <h6 class="fw-bold mb-4"><i class="bi bi-bell me-2 text-warning"></i>Notification Preferences</h6>
+                <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                    <div>
+                        <strong class="d-block small">Weather Alerts</strong>
+                        <span class="text-muted" style="font-size:0.78rem;">Get alerts when severe weather conditions are detected near your farm</span>
+                    </div>
+                    <div class="form-check form-switch ms-3">
+                        <input class="form-check-input" type="checkbox" id="alertWeather" checked>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                    <div>
+                        <strong class="d-block small">Prediction Notifications</strong>
+                        <span class="text-muted" style="font-size:0.78rem;">Receive notifications when AI predictions complete</span>
+                    </div>
+                    <div class="form-check form-switch ms-3">
+                        <input class="form-check-input" type="checkbox" id="alertPredictions" checked>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-3">
+                    <div>
+                        <strong class="d-block small">Monthly Analytics Reports</strong>
+                        <span class="text-muted" style="font-size:0.78rem;">Auto-generate and email a monthly summary report</span>
+                    </div>
+                    <div class="form-check form-switch ms-3">
+                        <input class="form-check-input" type="checkbox" id="alertReports">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="glass-card">
+                <h6 class="fw-bold mb-4"><i class="bi bi-info-circle me-2 text-primary"></i>About AgriNova AI</h6>
+                <div class="mb-3 p-3 bg-light rounded-3">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#16A34A,#22C55E);display:flex;align-items:center;justify-content:center;">
+                            <i class="bi bi-flower1 text-white fs-5"></i>
+                        </div>
+                        <div>
+                            <strong>AgriNova AI</strong>
+                            <small class="text-muted d-block">v1.0.0 Production Build</small>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-0">AI-powered Smart Agriculture SaaS platform. Built with Flask, PostgreSQL, scikit-learn, Bootstrap 5, and OpenWeather API.</p>
+                </div>
+                <table class="table table-borderless table-sm">
+                    <tbody>
+                        <tr><td class="text-muted small">Backend</td><td class="small fw-semibold">Python 3.11 / Flask 3.1</td></tr>
+                        <tr><td class="text-muted small">Database</td><td class="small fw-semibold">PostgreSQL via SQLAlchemy</td></tr>
+                        <tr><td class="text-muted small">ML Engine</td><td class="small fw-semibold">scikit-learn v1.9</td></tr>
+                        <tr><td class="text-muted small">Auth</td><td class="small fw-semibold">JWT Extended (RS256)</td></tr>
+                        <tr><td class="text-muted small">API Coverage</td><td class="small fw-semibold">25+ REST Endpoints</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

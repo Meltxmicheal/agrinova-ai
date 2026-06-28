@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}My Farms — AgriNova AI{% endblock %}
+
+{% block content %}
+
+{% include "_sidebar.html" %}
+
+<div class="main-content">
+    <!-- Topbar -->
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar"><i class="bi bi-list fs-5"></i></button>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-geo-alt me-2 text-success"></i>{{ 'Farms' | t }}</h5>
+        <div class="ms-auto d-flex gap-2">
+            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addFarmModal">
+                <i class="bi bi-plus-lg me-1"></i> {{ 'Add Farm' | t }}
+            </button>
+        </div>
+    </nav>
+
+    <!-- Farm Grid -->
+    <div class="row g-4" id="farmGrid">
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-success"></div>
+            <p class="text-muted mt-2">Loading your farms...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Farm Modal -->
+<div class="modal fade" id="addFarmModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="border-radius:16px;border:none;">
+            <div class="modal-header border-0 pb-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle text-success me-2"></i>{{ 'Add Farm' | t }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body p-4">
+                
+                <ul class="nav nav-pills mb-4 nav-fill" id="locationTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="auto-loc-tab" data-bs-toggle="pill" data-bs-target="#auto-loc" type="button" role="tab">{{ 'Use My Current Location' | t }}</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="manual-loc-tab" data-bs-toggle="pill" data-bs-target="#manual-loc" type="button" role="tab">{{ 'Manual Location' | t }}</button>
+                  </li>
+                </ul>
+                
+                <form id="addFarmForm">
+                    <input type="hidden" id="locMethod" value="auto">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-500">{{ 'Farm Name' | t }}</label>
+                        <input type="text" id="farmName" class="form-control" required>
+                    </div>
+
+                    <div class="tab-content" id="locationTabsContent">
+                        
+                        <!-- Auto Location Pane -->
+                        <div class="tab-pane fade show active" id="auto-loc" role="tabpanel">
+                            <div class="text-center py-4 bg-light rounded mb-3 border">
+                                <button type="button" id="geolocateBtn" class="btn btn-lg btn-outline-success">
+                                    <i class="bi bi-crosshair me-2"></i> {{ 'Use My Current Location' | t }}
+                                </button>
+                                <p class="text-muted mt-2 mb-0 small" id="geoStatus">Uses GPS to auto-fill location data.</p>
+                            </div>
+                            
+                            <div id="autoLocResults" class="row g-2 d-none">
+                                <div class="col-6"><input type="text" id="autoCountry" class="form-control bg-light" readonly placeholder="Country"></div>
+                                <div class="col-6"><input type="text" id="autoState" class="form-control bg-light" readonly placeholder="State"></div>
+                                <div class="col-6"><input type="text" id="autoDistrict" class="form-control bg-light" readonly placeholder="District"></div>
+                                <div class="col-6"><input type="text" id="autoTaluk" class="form-control bg-light" readonly placeholder="Taluk"></div>
+                                <div class="col-12"><input type="text" id="autoVillage" class="form-control" placeholder="Village (Optional)"></div>
+                                <input type="hidden" id="autoLat">
+                                <input type="hidden" id="autoLon">
+                            </div>
+                        </div>
+
+                        <!-- Manual Location Pane -->
+                        <div class="tab-pane fade" id="manual-loc" role="tabpanel">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ 'Country' | t }}</label>
+                                    <select id="country" class="form-select"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ 'State' | t }}</label>
+                                    <select id="state" class="form-select"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ 'District' | t }}</label>
+                                    <select id="district" class="form-select"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ 'Taluk' | t }}</label>
+                                    <select id="taluk" class="form-select"></select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">{{ 'Village' | t }}</label>
+                                    <input type="text" id="village" class="form-control" placeholder="Village">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">{{ 'Farm Size (Hectares)' | t }}</label>
+                            <input type="number" id="farmSize" step="0.1" min="0.1" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer border-0 px-0 pb-0 mt-4">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ 'Cancel' | t }}</button>
+                        <button type="submit" class="btn btn-success px-4" id="saveFarmBtn">
+                            <i class="bi bi-check2 me-1"></i> {{ 'Save' | t }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

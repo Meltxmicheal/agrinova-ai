@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% block title %}AgriNova AI — Grow Smarter. Harvest Better.{% endblock %}
+
+{% block styles %}
+<style>
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 40%, #f1f5f9 100%);
+    display: flex;
+    flex-direction: column;
+}
+.hero-gradient-text {
+    background: linear-gradient(90deg, #16A34A, #22C55E, #84CC16);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.feature-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(22, 163, 74, 0.08);
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: 50px;
+    padding: 0.35rem 1rem;
+    color: #16A34A;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+.stat-card {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(22,163,74,0.1); }
+.module-card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.module-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(22,163,74,0.1);
+    border-color: rgba(22,163,74,0.3);
+}
+.module-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.25rem;
+}
+.hero-cta-card {
+    background: linear-gradient(135deg, #16A34A, #22C55E);
+    border-radius: 24px;
+    padding: 3rem;
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar navbar-expand-lg glass-nav sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#16A34A,#22C55E);display:flex;align-items:center;justify-content:center;">
+                <i class="bi bi-flower1 text-white" style="font-size:1.2rem;"></i>
+            </div>
+            <span class="fw-bold fs-5" style="font-family:'Poppins',sans-serif;color:#0F172A;">AgriNova <span class="text-success">AI</span></span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav mx-auto gap-1">
+                <li class="nav-item"><a class="nav-link fw-500" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link fw-500" href="#ai-modules">AI Modules</a></li>
+                <li class="nav-item"><a class="nav-link fw-500" href="#about">About</a></li>
+            </ul>
+            <div class="d-flex gap-2 ms-3">
+                <a href="/login" class="btn btn-outline-success btn-sm">Login</a>
+                <a href="/register" class="btn btn-success btn-sm">Get Started Free</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero-section">
+    <div class="container flex-grow-1 d-flex align-items-center py-5">
+        <div class="row align-items-center w-100 g-5">
+            <div class="col-lg-6">
+                <span class="feature-badge">
+                    <i class="bi bi-stars me-2"></i> AI-Powered Agriculture Platform
+                </span>
+                <h1 class="display-3 fw-bold lh-1 mb-4">
+                    Grow <span class="hero-gradient-text">Smarter.</span><br>
+                    Harvest <span class="hero-gradient-text">Better.</span>
+                </h1>
+                <p class="lead text-muted mb-4" style="max-width: 520px;">
+                    AgriNova AI combines machine learning, real-time weather intelligence, and agronomic science to help farmers make data-driven decisions — from soil to sale.
+                </p>
+
+                <div class="d-flex align-items-center gap-2 flex-wrap mb-5">
+                    <i class="bi bi-check-circle-fill text-success"></i><span class="small text-muted">Crop Recommendation</span>
+                    <i class="bi bi-check-circle-fill text-success ms-3"></i><span class="small text-muted">Disease Detection</span>
+                    <i class="bi bi-check-circle-fill text-success ms-3"></i><span class="small text-muted">Yield Forecasting</span>
+                    <i class="bi bi-check-circle-fill text-success ms-3"></i><span class="small text-muted">Market Prices</span>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <a href="/register" class="btn btn-success btn-lg px-4 shadow-sm">
+                        Start Free Today <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <a href="#features" class="btn btn-outline-success btn-lg px-4">
+                        Explore Platform
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="stat-card">
+                            <div class="feature-icon-wrapper mx-auto"><i class="bi bi-crop"></i></div>
+                            <h3 class="fw-bold text-success mb-1">22+</h3>
+                            <small class="text-muted">Crops Supported</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card mt-4">
+                            <div class="feature-icon-wrapper mx-auto" style="background:#EFF6FF;color:#3B82F6;"><i class="bi bi-cloud-sun"></i></div>
+                            <h3 class="fw-bold text-primary mb-1">7-Day</h3>
+                            <small class="text-muted">Weather Forecast</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card">
+                            <div class="feature-icon-wrapper mx-auto" style="background:#FFF7ED;color:#EA580C;"><i class="bi bi-virus2"></i></div>
+                            <h3 class="fw-bold mb-1" style="color:#EA580C;">11+</h3>
+                            <small class="text-muted">Disease Classes</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card mt-4">
+                            <div class="feature-icon-wrapper mx-auto" style="background:#F5F3FF;color:#7C3AED;"><i class="bi bi-graph-up-arrow"></i></div>
+                            <h3 class="fw-bold mb-1" style="color:#7C3AED;">5 AI</h3>
+                            <small class="text-muted">ML Prediction Engines</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== AI MODULES ===================== -->
+<section id="ai-modules" class="py-5" style="background:#f8fafc;">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <span class="feature-badge mx-auto">AI Intelligence Suite</span>
+            <h2 class="display-5 fw-bold">Five Powerful AI Modules</h2>
+            <p class="text-muted lead mx-auto" style="max-width:550px;">Each module is backed by a trained Random Forest model delivering reliable, data-driven insights.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="module-card">
+                    <div class="module-icon" style="background:#DCFCE7;color:#16A34A;"><i class="bi bi-journal-check"></i></div>
+                    <h5 class="fw-bold mb-2">Crop Recommendation</h5>
+                    <p class="text-muted small">Input NPK levels, soil pH, temperature, humidity, and rainfall to receive the ideal crop recommendation for your land.</p>
+                    <a href="/register" class="btn btn-outline-success btn-sm mt-2">Try Now</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="module-card">
+                    <div class="module-icon" style="background:#DBEAFE;color:#3B82F6;"><i class="bi bi-graph-up-arrow"></i></div>
+                    <h5 class="fw-bold mb-2">Yield Prediction</h5>
+                    <p class="text-muted small">Forecast total crop yield in tonnes based on area, crop variety, season, rainfall, and temperature conditions.</p>
+                    <a href="/register" class="btn btn-outline-primary btn-sm mt-2">Try Now</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="module-card">
+                    <div class="module-icon" style="background:#FEF3C7;color:#D97706;"><i class="bi bi-camera"></i></div>
+                    <h5 class="fw-bold mb-2">Disease Detection</h5>
+                    <p class="text-muted small">Upload a photograph of your crop leaf. The vision AI engine will classify the disease and recommend a treatment plan.</p>
+                    <a href="/register" class="btn btn-outline-warning btn-sm mt-2">Try Now</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="module-card">
+                    <div class="module-icon" style="background:#F3E8FF;color:#7C3AED;"><i class="bi bi-droplet-half"></i></div>
+                    <h5 class="fw-bold mb-2">Fertilizer Recommendation</h5>
+                    <p class="text-muted small">Get fertilizer recommendations based on real-time soil nutrient levels, soil type, and crop category.</p>
+                    <a href="/register" class="btn btn-sm mt-2" style="border:1px solid #7C3AED;color:#7C3AED;">Try Now</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="module-card">
+                    <div class="module-icon" style="background:#FFF1F2;color:#E11D48;"><i class="bi bi-currency-rupee"></i></div>
+                    <h5 class="fw-bold mb-2">Market Price Prediction</h5>
+                    <p class="text-muted small">Predict the current and future market modal price for your commodity at target district-level markets.</p>
+                    <a href="/register" class="btn btn-sm mt-2" style="border:1px solid #E11D48;color:#E11D48;">Try Now</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="module-card">
+                    <div class="module-icon" style="background:#ECFDF5;color:#059669;"><i class="bi bi-cloud-sun-fill"></i></div>
+                    <h5 class="fw-bold mb-2">Farm Weather Intelligence</h5>
+                    <p class="text-muted small">Per-farm weather dashboard including 7-day forecast, UV index, wind, humidity, and precipitation probability.</p>
+                    <a href="/register" class="btn btn-outline-success btn-sm mt-2">Try Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="hero-cta-card text-center">
+            <h2 class="display-6 fw-bold text-white mb-3">Ready to Transform Your Farm?</h2>
+            <p class="text-white-50 mb-4 lead">Join farmers using AgriNova AI to maximize yield, reduce costs, and make smarter decisions every season.</p>
+            <a href="/register" class="btn btn-light btn-lg px-5 fw-semibold text-success">
+                <i class="bi bi-rocket-takeoff me-2"></i>Get Started Free
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="py-4 bg-white border-top">
+    <div class="container text-center">
+        <p class="mb-0 text-muted small">&copy; {{ 2026 }} <strong>AgriNova AI</strong> — Smart Agriculture Platform. Built with <i class="bi bi-heart-fill text-danger"></i> for Farmers.</p>
+    </div>
+</footer>
+
+{% endblock %}

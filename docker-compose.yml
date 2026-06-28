@@ -1,0 +1,52 @@
+# ================================================
+# AgriNova AI — Docker Compose (Dev + Production)
+# ================================================
+
+version: "3.9"
+
+services:
+
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: agrinova_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Micheal1316
+      POSTGRES_DB: agrinova_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Flask Backend + Frontend (Monolith)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agrinova_app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:Micheal1316@db:5432/agrinova_db
+      - SECRET_KEY=agrinova-super-secret-key-2026
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY:-}
+      - FLASK_ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ml_models:/app/backend/ml/models
+
+volumes:
+  postgres_data:
+    driver: local
+  ml_models:
+    driver: local

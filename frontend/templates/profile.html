@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}My Profile — AgriNova AI{% endblock %}
+
+{% block content %}
+
+{% include "_sidebar.html" %}
+
+<div class="main-content">
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar"><i class="bi bi-list fs-5"></i></button>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-person-circle me-2 text-success"></i>My Profile</h5>
+    </nav>
+
+    <div class="row g-4">
+        <!-- Profile Info Card -->
+        <div class="col-lg-5">
+            <div class="glass-card text-center">
+                <div class="mx-auto mb-3" style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#16A34A,#22C55E);display:flex;align-items:center;justify-content:center;">
+                    <i class="bi bi-person-fill text-white" style="font-size:2.5rem;"></i>
+                </div>
+                <h4 class="fw-bold mb-1" id="profileName">—</h4>
+                <p class="text-muted mb-2" id="profileEmail">—</p>
+                <div id="profileVerified" class="mb-3"></div>
+                <hr>
+                <div class="row text-start g-3">
+                    <div class="col-12">
+                        <small class="text-muted d-block">Phone Number</small>
+                        <strong id="profilePhone">—</strong>
+                    </div>
+                    <div class="col-12">
+                        <small class="text-muted d-block">Member Since</small>
+                        <strong id="profileRegistered">—</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Password Card -->
+        <div class="col-lg-7">
+            <div class="glass-card">
+                <h6 class="fw-bold mb-4"><i class="bi bi-shield-lock me-2 text-success"></i>Change Password</h6>
+
+                <div id="profileAlert" class="alert d-none" role="alert"></div>
+
+                <form id="changePasswordForm">
+                    <div class="mb-3">
+                        <label class="form-label fw-500">New Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" id="newPassword" class="form-control border-start-0 ps-0"
+                                   placeholder="Enter new password" required minlength="8">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-500">Confirm New Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
+                            <input type="password" id="confirmNewPassword" class="form-control border-start-0 ps-0"
+                                   placeholder="Repeat new password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success px-5 fw-semibold">
+                        <i class="bi bi-check2-shield me-2"></i>Update Password
+                    </button>
+                </form>
+            </div>
+
+            <!-- Quick Links Card -->
+            <div class="glass-card mt-4">
+                <h6 class="fw-bold mb-3"><i class="bi bi-lightning-charge me-2 text-warning"></i>Quick Links</h6>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a href="/farms" class="text-decoration-none d-flex align-items-center gap-2 p-3 rounded-3 bg-light">
+                            <i class="bi bi-geo-alt text-success fs-5"></i>
+                            <span class="small fw-semibold">Manage Farms</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/prediction" class="text-decoration-none d-flex align-items-center gap-2 p-3 rounded-3 bg-light">
+                            <i class="bi bi-cpu text-primary fs-5"></i>
+                            <span class="small fw-semibold">Run Prediction</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/weather" class="text-decoration-none d-flex align-items-center gap-2 p-3 rounded-3 bg-light">
+                            <i class="bi bi-cloud-sun text-info fs-5"></i>
+                            <span class="small fw-semibold">Weather Forecast</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/reports" class="text-decoration-none d-flex align-items-center gap-2 p-3 rounded-3 bg-light">
+                            <i class="bi bi-file-earmark-bar-graph text-warning fs-5"></i>
+                            <span class="small fw-semibold">Download Reports</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
