@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+{% block title %}AI Predictions — AgriNova AI{% endblock %}
+
+{% block content %}
+
+{% include "_sidebar.html" %}
+
+<div class="main-content">
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar"><i class="bi bi-list fs-5"></i></button>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-cpu me-2 text-success"></i>AI Prediction Modules</h5>
+    </nav>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-pills mb-4 gap-2 flex-nowrap overflow-auto" id="predTabs">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-crop">🌱 {{ 'Crop Recommendation' | t }}</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-yield">📈 {{ 'Yield Prediction' | t }}</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-disease">🔬 {{ 'Disease Detection' | t }}</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-fert">💧 {{ 'Fertilizer Recommendation' | t }}</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-price">₹ {{ 'Market Prices' | t }}</button></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- ==================== TAB 1: CROP RECOMMENDATION ==================== -->
+        <div class="tab-pane fade show active" id="tab-crop">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="glass-card h-100">
+                        <h6 class="fw-bold mb-1"><i class="bi bi-journal-check text-success me-2"></i>{{ 'Crop Recommendation' | t }}</h6>
+                        <p class="text-muted small mb-4">Select your farm and let our AI automatically fetch weather and soil data to recommend the best crop.</p>
+                        <form id="cropForm" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">{{ 'Link to Farm' | t }}</label>
+                                <select id="cropFarm" name="farm_id" class="form-select farm-select" required></select>
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label small">{{ 'Season' | t }}</label>
+                                    <select id="cropSeason" name="season" class="form-select" required>
+                                        <option value="">Select season...</option>
+                                        <option>Kharif</option><option>Rabi</option><option>Summer</option><option>Whole Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">{{ 'Farming Goal' | t }}</label>
+                                    <select id="cropGoal" name="farming_goal" class="form-select">
+                                        <option value="Maximum Yield">{{ 'Maximum Yield' | t }}</option>
+                                        <option value="Water Saving">{{ 'Water Saving' | t }}</option>
+                                        <option value="Organic Farming">{{ 'Organic Farming' | t }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label small">{{ 'Upload Soil Test Report' | t }} <small class="text-muted">(Optional PDF/Image)</small></label>
+                                <input type="file" id="cropSoilReport" name="soil_report" class="form-control" accept="image/*,.pdf">
+                                <small class="text-muted" style="font-size: 0.75rem;">If uploaded, our AI will extract exact soil nutrient levels to override default regional estimates.</small>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 fw-semibold">
+                                <i class="bi bi-magic me-2"></i>{{ 'Predict' | t }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="cropResult" class="d-none animate-fade-in"></div>
+                    <div class="glass-card h-100">
+                        <h6 class="fw-bold mb-3 text-muted">How it works</h6>
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="feature-icon-wrapper flex-shrink-0 mb-0" style="width:36px;height:36px;font-size:1rem;">1</div>
+                            <p class="text-muted small mb-0">Select your farm. Our system instantly retrieves precise geographical coordinates.</p>
+                        </div>
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="feature-icon-wrapper flex-shrink-0 mb-0" style="width:36px;height:36px;font-size:1rem;">2</div>
+                            <p class="text-muted small mb-0">We automatically poll global satellite databases for microclimate and baseline soil conditions.</p>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="feature-icon-wrapper flex-shrink-0 mb-0" style="width:36px;height:36px;font-size:1rem;">3</div>
+                            <p class="text-muted small mb-0">Our ML engine analyzes millions of data points to deliver a sustainable crop recommendation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: YIELD PREDICTION ==================== -->
+        <div class="tab-pane fade" id="tab-yield">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="glass-card">
+                        <h6 class="fw-bold mb-1"><i class="bi bi-graph-up-arrow text-primary me-2"></i>Yield Prediction</h6>
+                        <p class="text-muted small mb-4">Forecast your crop's production output automatically using real-time local weather tracking.</p>
+                        <form id="yieldForm">
+                            <div class="mb-3">
+                                <label class="form-label">Link to Farm</label>
+                                <select id="yieldFarm" name="farm_id" class="form-select farm-select" required></select>
+                            </div>
+                            <div class="row g-2 mb-4">
+                                <div class="col-6">
+                                    <label class="form-label small">Crop</label>
+                                    <select id="yieldCrop" name="crop" class="form-select" required>
+                                        <option value="">Select crop...</option>
+                                        <option>rice</option><option>maize</option><option>cotton</option>
+                                        <option>wheat</option><option>jute</option><option>banana</option>
+                                        <option>mango</option><option>coconut</option><option>coffee</option>
+                                        <option>grapes</option><option>papaya</option><option>lentil</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">Season</label>
+                                    <select id="yieldSeason" name="season" class="form-select" required>
+                                        <option value="">Select season...</option>
+                                        <option>Kharif</option><option>Rabi</option><option>Summer</option><option>Whole Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                                <i class="bi bi-bar-chart-steps me-2"></i>Predict Yield
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="yieldResult" class="mb-4 d-none animate-fade-in"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: DISEASE DETECTION ==================== -->
+        <div class="tab-pane fade" id="tab-disease">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="glass-card">
+                        <h6 class="fw-bold mb-1"><i class="bi bi-camera text-warning me-2"></i>Plant Disease Detection</h6>
+                        <p class="text-muted small mb-4">Upload a clear photograph of the infected crop leaf. We'll identify the disease and provide treatment instructions.</p>
+                        <form id="diseaseForm" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">Link to Farm <small class="text-muted">(Optional)</small></label>
+                                <select id="diseaseFarm" name="farm_id" class="form-select farm-select"></select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Leaf Image Upload</label>
+                                <div class="border-2 border-dashed rounded-3 p-4 text-center" style="border:2px dashed #CBD5E1;cursor:pointer;" onclick="document.getElementById('diseaseFile').click()">
+                                    <i class="bi bi-cloud-upload text-success fs-1 d-block mb-2"></i>
+                                    <p class="mb-1 fw-semibold">Click to upload leaf image</p>
+                                    <small class="text-muted">Supported: JPG, PNG, WEBP (Max 10MB)</small>
+                                    <input type="file" id="diseaseFile" name="file" class="d-none" accept="image/*" onchange="previewImage(this)">
+                                </div>
+                                <div id="imagePreview" class="mt-3 d-none text-center">
+                                    <img id="previewImg" src="" alt="Preview" class="img-thumbnail" style="max-height:180px;">
+                                    <p id="previewName" class="text-muted small mt-1"></p>
+                                </div>
+                            </div>
+                            <div id="diseaseLoader" class="text-center d-none mb-3">
+                                <div class="spinner-border text-warning"></div>
+                                <p class="text-muted small mt-1">Analyzing image...</p>
+                            </div>
+                            <button type="submit" class="btn btn-warning w-100 fw-semibold text-dark">
+                                <i class="bi bi-search me-2"></i>Analyze Leaf Image
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="diseaseResult" class="d-none animate-fade-in"></div>
+                    <div class="glass-card mt-4">
+                        <h6 class="fw-bold mb-3 text-muted">Supported Disease Classes</h6>
+                        <div class="row g-1">
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Apple Scab</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Apple Black Rot</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Potato Early Blight</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Potato Late Blight</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Tomato Bacterial Spot</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Tomato Early Blight</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Tomato Late Blight</span></div>
+                            <div class="col-6"><span class="badge bg-light text-dark border mb-1">Tomato Target Spot</span></div>
+                            <div class="col-6"><span class="badge bg-success text-white mb-1">Healthy (3 crops)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 4: FERTILIZER ==================== -->
+        <div class="tab-pane fade" id="tab-fert">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="glass-card h-100">
+                        <h6 class="fw-bold mb-1"><i class="bi bi-droplet-half me-2" style="color:#7C3AED;"></i>Fertilizer Recommendation</h6>
+                        <p class="text-muted small mb-4">Get precision fertilizer advice without typing out complex nutrient ratios.</p>
+                        <form id="fertForm" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">Link to Farm</label>
+                                <select id="fertFarm" name="farm_id" class="form-select farm-select" required></select>
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label small">Crop Type</label>
+                                    <select id="fertCrop" name="crop_type" class="form-select" required>
+                                        <option value="">Select crop...</option>
+                                        <option>rice</option><option>wheat</option><option>maize</option><option>cotton</option>
+                                        <option>sugarcane</option><option>banana</option><option>tomato</option><option>potato</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">Farming Goal</label>
+                                    <select id="fertGoal" name="farming_goal" class="form-select">
+                                        <option value="Maximum Yield">Maximum Yield</option>
+                                        <option value="Organic Farming">Organic Farming</option>
+                                        <option value="Balanced">Balanced</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label small">Soil Test Report <small class="text-muted">(Optional PDF/Image)</small></label>
+                                <input type="file" id="fertSoilReport" name="soil_report" class="form-control" accept="image/*,.pdf">
+                                <small class="text-muted" style="font-size: 0.75rem;">If uploaded, AI will extract N, P, K values directly from the document.</small>
+                            </div>
+                            <button type="submit" class="btn w-100 fw-semibold text-white" style="background:#7C3AED;">
+                                <i class="bi bi-magic me-2"></i>Get Fertilizer Advice
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="fertResult" class="d-none animate-fade-in"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 5: MARKET PRICE ==================== -->
+        <div class="tab-pane fade" id="tab-price">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="glass-card">
+                        <h6 class="fw-bold mb-1"><i class="bi bi-currency-rupee text-danger me-2"></i>Market Price Prediction</h6>
+                        <p class="text-muted small mb-4">Estimate the market modal price of your commodity at district mandis based on seasonal trends.</p>
+                        <form id="priceForm">
+                            <div class="mb-3">
+                                <label class="form-label">Link to Farm</label>
+                                <select id="priceFarm" name="farm_id" class="form-select farm-select" required></select>
+                            </div>
+                            <div class="row g-2 mb-4">
+                                <div class="col-6">
+                                    <label class="form-label small">Commodity</label>
+                                    <select id="priceCommodity" name="commodity" class="form-select" required>
+                                        <option value="">Select commodity...</option>
+                                        <option>Rice</option><option>Wheat</option><option>Maize</option>
+                                        <option>Cotton</option><option>Jute</option><option>Potato</option>
+                                        <option>Tomato</option><option>Onion</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small">Target Month</label>
+                                    <select id="priceMonth" name="month" class="form-select" required>
+                                        <option value="1">January</option><option value="2">February</option>
+                                        <option value="3">March</option><option value="4">April</option>
+                                        <option value="5">May</option><option value="6">June</option>
+                                        <option value="7">July</option><option value="8">August</option>
+                                        <option value="9">September</option><option value="10">October</option>
+                                        <option value="11">November</option><option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100 fw-semibold">
+                                <i class="bi bi-graph-up me-2"></i>Predict Market Price
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="priceResult" class="d-none animate-fade-in"></div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.tab-content -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("previewImg").src = e.target.result;
+            document.getElementById("previewName").textContent = input.files[0].name;
+            document.getElementById("imagePreview").classList.remove("d-none");
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}

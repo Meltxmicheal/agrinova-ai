@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Farm Weather — AgriNova AI{% endblock %}
+
+{% block content %}
+
+{% include "_sidebar.html" %}
+
+<div class="main-content">
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar"><i class="bi bi-list fs-5"></i></button>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-cloud-sun me-2 text-success"></i>Farm Weather Intelligence</h5>
+    </nav>
+
+    <!-- Farm Selector -->
+    <div class="glass-card mb-4">
+        <div class="row align-items-center g-3">
+            <div class="col-md-8">
+                <label class="form-label fw-600 mb-1">Select Farm</label>
+                <select id="weatherFarmSelect" class="form-select">
+                    <option value="">Loading your farms...</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <div class="p-3 bg-success-subtle rounded-3 w-100 text-center">
+                    <i class="bi bi-info-circle text-success me-1"></i>
+                    <small class="text-muted">Weather is fetched using the farm's GPS coordinates.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner -->
+    <div id="weatherSpinner" class="text-center py-5 d-none">
+        <div class="spinner-border text-success" style="width:3rem;height:3rem;"></div>
+        <p class="text-muted mt-3">Fetching weather data...</p>
+    </div>
+
+    <!-- Weather Details Area -->
+    <div id="weatherDetailsArea" class="d-none animate-fade-in">
+
+        <!-- Source Badge -->
+        <div class="mb-3">
+            <span class="badge bg-light text-muted border">
+                <i class="bi bi-broadcast me-1"></i> Data Source: <span id="sourceBadge">—</span>
+            </span>
+        </div>
+
+        <!-- Current Conditions -->
+        <div class="glass-card mb-4">
+            <h6 class="fw-bold mb-4"><i class="bi bi-thermometer-sun me-2 text-warning"></i>Current Conditions</h6>
+            <div class="row g-4 text-center">
+                <div class="col-6 col-md-2">
+                    <div class="p-3 rounded-3 bg-light">
+                        <i class="bi bi-thermometer-half text-danger fs-4 d-block mb-1"></i>
+                        <small class="text-muted d-block">Temperature</small>
+                        <strong id="currTemp">—</strong>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 rounded-3 bg-light">
+                        <i class="bi bi-cloud text-secondary fs-4 d-block mb-1"></i>
+                        <small class="text-muted d-block">Condition</small>
+                        <strong id="currDesc" style="font-size:0.8rem;">—</strong>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 rounded-3 bg-light">
+                        <i class="bi bi-moisture text-primary fs-4 d-block mb-1"></i>
+                        <small class="text-muted d-block">Humidity</small>
+                        <strong id="currHumidity">—</strong>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 rounded-3 bg-light">
+                        <i class="bi bi-wind text-info fs-4 d-block mb-1"></i>
+                        <small class="text-muted d-block">Wind Speed</small>
+                        <strong id="currWind">—</strong>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 rounded-3 bg-light">
+                        <i class="bi bi-umbrella text-primary fs-4 d-block mb-1"></i>
+                        <small class="text-muted d-block">Rain Prob.</small>
+                        <strong id="currRain">—</strong>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 rounded-3 bg-light">
+                        <i class="bi bi-brightness-high text-warning fs-4 d-block mb-1"></i>
+                        <small class="text-muted d-block">UV Index</small>
+                        <strong id="currUV">—</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Alerts -->
+        <div class="glass-card mb-4">
+            <h6 class="fw-bold mb-3"><i class="bi bi-exclamation-triangle me-2 text-warning"></i>Weather Alerts</h6>
+            <div id="weatherAlertsBox"></div>
+        </div>
+
+        <!-- 7-Day Forecast -->
+        <div class="glass-card">
+            <h6 class="fw-bold mb-4"><i class="bi bi-calendar3 me-2 text-success"></i>7-Day Forecast</h6>
+            <div class="row g-3" id="forecastCards"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

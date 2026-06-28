@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Register — AgriNova AI{% endblock %}
+
+{% block styles %}
+<style>
+.auth-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 40%, #f1f5f9 100%);
+    display: flex; align-items: center; justify-content: center;
+}
+.password-strength { height: 4px; border-radius: 4px; transition: width 0.3s ease; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-bg py-5">
+    <div class="auth-container w-100 px-3" style="max-width:500px;">
+        <div class="glass-card shadow-lg">
+            <!-- Logo -->
+            <div class="text-center mb-4">
+                <div class="mx-auto mb-3" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#16A34A,#22C55E);display:flex;align-items:center;justify-content:center;">
+                    <i class="bi bi-flower1 text-white fs-4"></i>
+                </div>
+                <h3 class="fw-bold mb-1">Create Free Account</h3>
+                <p class="text-muted small">Join AgriNova AI and grow smarter</p>
+            </div>
+
+            <!-- Alert -->
+            <div id="alertBox" class="alert alert-danger d-none" role="alert"></div>
+
+            <form id="registerForm" novalidate>
+                <div class="mb-3">
+                    <label class="form-label fw-500">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-person text-muted"></i></span>
+                        <input type="text" id="fullName" class="form-control border-start-0 ps-0" placeholder="Your full name" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-500">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                        <input type="email" id="email" class="form-control border-start-0 ps-0" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-500">Phone Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-telephone text-muted"></i></span>
+                        <input type="tel" id="phone" class="form-control border-start-0 ps-0" placeholder="+91 9876543210" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-500">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <input type="password" id="password" class="form-control border-start-0 ps-0" placeholder="Min 8 characters" required minlength="8" oninput="checkStrength(this.value)">
+                        <button type="button" class="input-group-text bg-white" onclick="togglePw('password','pwIcon1')">
+                            <i class="bi bi-eye text-muted" id="pwIcon1"></i>
+                        </button>
+                    </div>
+                    <div class="mt-2 bg-light rounded" style="height:4px;">
+                        <div id="strengthBar" class="password-strength bg-danger" style="width:0%;"></div>
+                    </div>
+                    <small id="strengthLabel" class="text-muted"></small>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-500">Confirm Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
+                        <input type="password" id="confirmPassword" class="form-control border-start-0 ps-0" placeholder="Repeat your password" required>
+                        <button type="button" class="input-group-text bg-white" onclick="togglePw('confirmPassword','pwIcon2')">
+                            <i class="bi bi-eye text-muted" id="pwIcon2"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+                    <i class="bi bi-person-plus me-2"></i>Create Account
+                </button>
+            </form>
+
+            <hr class="my-4">
+            <p class="text-center text-muted small mb-0">
+                Already have an account? <a href="/login" class="text-success fw-semibold">Sign In</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePw(inputId, iconId) {
+    const el = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (el.type === "password") {
+        el.type = "text"; icon.className = "bi bi-eye-slash text-muted";
+    } else {
+        el.type = "password"; icon.className = "bi bi-eye text-muted";
+    }
+}
+
+function checkStrength(val) {
+    const bar = document.getElementById("strengthBar");
+    const label = document.getElementById("strengthLabel");
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const colors = ["bg-danger","bg-warning","bg-info","bg-success"];
+    const labels = ["Weak","Fair","Good","Strong"];
+    const widths = ["25%","50%","75%","100%"];
+    bar.className = "password-strength " + colors[score-1] || "bg-danger";
+    bar.style.width = widths[score-1] || "0%";
+    label.textContent = score > 0 ? "Strength: " + labels[score-1] : "";
+}
+</script>
+{% endblock %}

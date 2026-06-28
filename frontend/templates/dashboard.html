@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AgriNova AI{% endblock %}
+
+{% block content %}
+
+{% include "_sidebar.html" %}
+
+<div class="main-content">
+    <!-- Top Navbar -->
+    <nav class="navbar glass-nav rounded-3 px-4 mb-4">
+        <button class="btn btn-sm btn-light d-lg-none me-2" id="toggleSidebar">
+            <i class="bi bi-list fs-5"></i>
+        </button>
+        <h5 class="mb-0 fw-bold">{{ 'Dashboard' | t }}</h5>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="text-muted small">{{ 'Welcome' | t }}, <strong id="userDisplay">Farmer</strong></span>
+            <a href="/profile" class="btn btn-sm btn-outline-success rounded-circle" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
+                <i class="bi bi-person"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Stats Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-lg-3">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">{{ 'Registered Farms' | t }}</p>
+                        <h2 class="fw-bold mb-0 text-success" id="farmsCount">—</h2>
+                    </div>
+                    <div class="feature-icon-wrapper mb-0"><i class="bi bi-geo-alt-fill"></i></div>
+                </div>
+                <p class="text-muted small mt-2 mb-0"><a href="/farms" class="text-success text-decoration-none">{{ 'Manage Farms' | t }} →</a></p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">Total Farm Area</p>
+                        <h2 class="fw-bold mb-0 text-primary" id="totalSize">—</h2>
+                    </div>
+                    <div class="feature-icon-wrapper mb-0" style="background:#EFF6FF;color:#3B82F6;"><i class="bi bi-map"></i></div>
+                </div>
+                <p class="text-muted small mt-2 mb-0">Hectares registered</p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">AI Predictions</p>
+                        <h2 class="fw-bold mb-0" style="color:#7C3AED;" id="predictionsCount">—</h2>
+                    </div>
+                    <div class="feature-icon-wrapper mb-0" style="background:#F5F3FF;color:#7C3AED;"><i class="bi bi-cpu"></i></div>
+                </div>
+                <p class="text-muted small mt-2 mb-0"><a href="/prediction" class="text-decoration-none" style="color:#7C3AED;">Run New Prediction →</a></p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">Reports Ready</p>
+                        <h2 class="fw-bold mb-0" style="color:#D97706;">3</h2>
+                    </div>
+                    <div class="feature-icon-wrapper mb-0" style="background:#FFFBEB;color:#D97706;"><i class="bi bi-file-earmark-bar-graph"></i></div>
+                </div>
+                <p class="text-muted small mt-2 mb-0"><a href="/reports" class="text-decoration-none" style="color:#D97706;">Download Reports →</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart + Quick Actions Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-5">
+            <div class="glass-card h-100">
+                <h6 class="fw-bold mb-3"><i class="bi bi-lightbulb text-warning me-2"></i>{{ 'Smart Insights' | t }}</h6>
+                <div id="smartInsightsContainer" style="max-height: 220px; overflow-y: auto;">
+                    <div class="text-center text-muted py-4">
+                        <div class="spinner-border spinner-border-sm text-success me-2"></div> Loading insights...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="glass-card h-100">
+                <h6 class="fw-bold mb-3">Quick Actions</h6>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <a href="/prediction" class="text-decoration-none">
+                            <div class="p-3 rounded-3 d-flex align-items-center gap-3" style="background:#DCFCE7;transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                                <i class="bi bi-journal-check text-success fs-4"></i>
+                                <div><strong class="small d-block text-success">Crop Recommendation</strong><span class="text-muted" style="font-size:0.72rem;">Predict best crop</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/prediction" class="text-decoration-none">
+                            <div class="p-3 rounded-3 d-flex align-items-center gap-3" style="background:#DBEAFE;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                                <i class="bi bi-graph-up-arrow text-primary fs-4"></i>
+                                <div><strong class="small d-block text-primary">Yield Prediction</strong><span class="text-muted" style="font-size:0.72rem;">Forecast tonnes</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/prediction" class="text-decoration-none">
+                            <div class="p-3 rounded-3 d-flex align-items-center gap-3" style="background:#FEF3C7;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                                <i class="bi bi-camera text-warning fs-4"></i>
+                                <div><strong class="small d-block text-warning">Disease Detection</strong><span class="text-muted" style="font-size:0.72rem;">Upload leaf image</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/weather" class="text-decoration-none">
+                            <div class="p-3 rounded-3 d-flex align-items-center gap-3" style="background:#ECFDF5;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                                <i class="bi bi-cloud-sun text-success fs-4"></i>
+                                <div><strong class="small d-block text-success">Farm Weather</strong><span class="text-muted" style="font-size:0.72rem;">7-day forecast</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/prediction" class="text-decoration-none">
+                            <div class="p-3 rounded-3 d-flex align-items-center gap-3" style="background:#F3E8FF;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                                <i class="bi bi-droplet-half fs-4" style="color:#7C3AED;"></i>
+                                <div><strong class="small d-block" style="color:#7C3AED;">Fertilizer Guide</strong><span class="text-muted" style="font-size:0.72rem;">Optimize nutrients</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/prediction" class="text-decoration-none">
+                            <div class="p-3 rounded-3 d-flex align-items-center gap-3" style="background:#FFF1F2;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                                <i class="bi bi-currency-rupee fs-4" style="color:#E11D48;"></i>
+                                <div><strong class="small d-block" style="color:#E11D48;">Market Price</strong><span class="text-muted" style="font-size:0.72rem;">Predict mandi rate</span></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Table -->
+    <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0">{{ 'Recent AI Predictions' | t }}</h6>
+            <a href="/reports" class="btn btn-sm btn-outline-success">{{ 'View All Reports' | t }}</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Module</th>
+                        <th>Output Summary</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody id="activityBody">
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            <div class="spinner-border spinner-border-sm text-success me-2"></div> Loading activity...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

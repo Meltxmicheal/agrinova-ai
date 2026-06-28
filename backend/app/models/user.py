@@ -44,6 +44,11 @@ class User(db.Model):
         default=False
     )
 
+    language_preference = db.Column(
+        db.String(5),
+        default="en"
+    )
+
     created_at = db.Column(
         db.DateTime,
         default=datetime.utcnow
