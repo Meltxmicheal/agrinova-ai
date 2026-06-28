@@ -5,7 +5,7 @@ load_dotenv()
 
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY")
+    SECRET_KEY = os.getenv("SECRET_KEY", "agrinova-secret")
 
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
 
